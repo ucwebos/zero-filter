@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb;
+
+message PKMap {
+    map<string, int32> map = 1; 
+}
+
+message IdxVal {
+    bytes sbm = 1;
+    int64 vInt = 2;
+    string vStr = 3;
+}
+
+message IdxTree {
+    repeated IdxVal list = 1;
+}

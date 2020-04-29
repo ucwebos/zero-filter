@@ -1,0 +1,29 @@
+{
+    "port": ":7878",
+    "path": "/var/log/zfstore",
+    "buckets": {
+        "core": {
+            "modeUNI": true,
+            "primary": "id",
+            "kfMapNum": 1024,
+            "idxs": {
+                "appId": {
+                    "kType": 1
+                },
+                "cateId": {
+                    "kType": 1
+                },
+                "recId": {
+                    "kType": 2
+                },
+                "userId": {
+                    "kType": 1
+                }
+            },
+            "search": {
+                "name": true,
+                "title": true
+            }
+        }
+    }
+}
