@@ -101,14 +101,25 @@ func query(c *gin.Context) {
 	}
 	// 分块发送数据流
 	if query.Stream {
-		stm, err := createStreamQ(bm)
-		if err != nil {
-			c.JSON(410, gin.H{
-				"message": err.Error(),
-			})
+		var stm *streamQ
+		if query.StreamID != "" {
+			stm = getStreamQ(query.StreamID)
+			if stm == nil {
+				c.JSON(410, gin.H{
+					"message": "streamID error",
+				})
+				return
+			}
+		} else {
+			stm, err = createStreamQ(bm)
+			if err != nil {
+				c.JSON(410, gin.H{
+					"message": err.Error(),
+				})
+			}
 		}
 		resp.StreamID = stm.StreamID
-		resp.List = stm.XRange()
+		resp.List, resp.StreamEnd = stm.XRange()
 	} else {
 		// 默认limit模式 默认1000个
 		var (
@@ -157,7 +168,6 @@ func rawLimit(sb *roaring.Bitmap, start int, size int) (list []json.RawMessage) 
 }
 
 func put(c *gin.Context) {
-
 	var (
 		req  = PutReq{}
 		resp = PutResp{}

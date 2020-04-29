@@ -5,6 +5,7 @@ import (
 	"errors"
 	"strconv"
 	"time"
+	"zero-filter/src/tools"
 
 	"github.com/RoaringBitmap/roaring"
 )
@@ -12,19 +13,42 @@ import (
 type streamQ struct {
 	StreamID string
 	Bm       *roaring.Bitmap
-	Count    int
+	Iterator roaring.IntPeekable
 	Size     int
-	Offset   int
 	LastTime time.Time
 }
 
-func (s *streamQ) XRange() (list []json.RawMessage) {
-	list = rawLimit(s.Bm, s.Offset, s.Size)
-	s.Offset = s.Offset + s.Size
-	if s.Offset >= s.Count {
-		streamMap.Delete(s.StreamID)
+func (s *streamQ) XRange() (list []json.RawMessage, end bool) {
+	list = make([]json.RawMessage, 0)
+	var (
+		ukeys = make([][]byte, 0)
+	)
+	for i := 0; i < s.Size; i++ {
+		if !s.Iterator.HasNext() {
+			end = true
+			streamMap.Delete(s.StreamID)
+			break
+		}
+		x := s.Iterator.Next()
+		ukeys = append(ukeys, tools.Int64ToBytes(int64(x)))
+	}
+	bufs, err := kvReader.MultiGet(ukeys)
+	if err != nil {
+		return
+	}
+	for _, buf := range bufs {
+		list = append(list, json.RawMessage(buf))
 	}
 	s.LastTime = time.Now()
+	return
+}
+
+func getStreamQ(streamID string) (stm *streamQ) {
+	if stmi, ok := streamMap.Load(streamID); ok {
+		if stm, ok := stmi.(*streamQ); ok {
+			return stm
+		}
+	}
 	return
 }
 
@@ -42,9 +66,8 @@ func createStreamQ(bm *roaring.Bitmap) (stm *streamQ, err error) {
 	stm = &streamQ{
 		StreamID: StreamID,
 		Bm:       bm,
-		Count:    int(bm.GetCardinality()),
+		Iterator: bm.Iterator(),
 		Size:     1000,
-		Offset:   0,
 		LastTime: time.Now(),
 	}
 	streamMap.Store(StreamID, stm)

@@ -25,9 +25,10 @@ type Query struct {
 
 // QueryResp .
 type QueryResp struct {
-	List     []json.RawMessage `json:"list,omitempty"`
-	Size     int               `json:"size"`
-	StreamID string            `json:"streamId,omitempty"`
+	List      []json.RawMessage `json:"list,omitempty"`
+	Size      int               `json:"size"`
+	StreamEnd bool              `json:"streamEnd,omitempty"`
+	StreamID  string            `json:"streamId,omitempty"`
 }
 
 const (
