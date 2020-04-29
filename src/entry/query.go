@@ -87,11 +87,11 @@ func (q *Query) itemExec(whr WhereOp) (bm *roaring.Bitmap) {
 	idxs := q.BucketObj.Idxs
 	//判断异常条件 & 条件转换为索引对应的类型
 	idx, ok := idxs[whr.Key]
-	if !ok {
+	if !ok && whr.Op != OpTypeLike {
 		return
 	}
 	bv := index.ToBVal(idx.KType, whr.Val)
-	if bv == nil {
+	if bv == nil && whr.Op != OpTypeLike {
 		return
 	}
 
@@ -240,8 +240,8 @@ func (q *Query) findMoreOrEq(key string, val interface{}) (bm *roaring.Bitmap) {
 }
 
 func (q *Query) findLike(key string, val interface{}) (bm *roaring.Bitmap) {
-	// todo 。。。
 	// 如果没有初始化搜索
+	fmt.Println(q.BucketObj.Search)
 	if q.BucketObj.Search == nil {
 		return
 	}

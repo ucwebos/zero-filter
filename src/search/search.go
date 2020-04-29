@@ -14,7 +14,7 @@ type Search struct {
 }
 
 // NewSearch .
-func NewSearch(bucket string) *Search {
+func NewSearch(bucket string) (s *Search, err error) {
 	var (
 		host     = "localhost"
 		port     = 1491
@@ -22,17 +22,18 @@ func NewSearch(bucket string) *Search {
 	)
 	ingester, err := sonic.NewIngester(host, port, password)
 	if err != nil {
-		panic(err)
+		return
 	}
 	search, err := sonic.NewSearch(host, port, password)
 	if err != nil {
-		panic(err)
+		return
 	}
-	return &Search{
+	s = &Search{
 		Bucket:   bucket,
 		Ingester: ingester,
 		Searcher: search,
 	}
+	return
 }
 
 // Put .
@@ -75,6 +76,9 @@ func (s *Search) Search(key string, obj string) (bm *roaring.Bitmap) {
 				continue
 			}
 			bm.Add(idU32)
+		}
+		if len(results) < size {
+			return
 		}
 		offset = offset + size
 	}

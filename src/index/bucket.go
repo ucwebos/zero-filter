@@ -2,6 +2,7 @@ package index
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"time"
@@ -73,6 +74,18 @@ func NewBucket(name string) (bt *Bucket, err error) {
 		err = errors.New("error not found bucket primary")
 		return
 	}
+
+	if len(bt.SearchKeys) > 0 {
+		sr, err := search.NewSearch(name)
+		if err != nil {
+			fmt.Println(err)
+			// tod ...
+		}
+		if sr != nil {
+			bt.Search = sr
+		}
+	}
+
 	bt.Load()
 
 	// ...
