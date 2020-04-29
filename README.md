@@ -61,12 +61,41 @@ btree + RoaringBitmap + rocksdb + [soinc] 实现的简单筛选数据库
         "bucket": "core",
         "where": [
             {
-                {
-                    "key": "recId",
-                    "op": "=",
-                    "val": "1"
-                }
+                "key": "recId",
+                "op": "=",
+                "val": "1"
+            },
+            {
+                "or": [
+                    {
+                        "key": "cateId",
+                        "op": "=",
+                        "val": "10"
+                    },
+                    {
+                        "key": "cateId",
+                        "op": ">=",
+                        "val": "1"
+                    }
+                ]
             }
+        ]
+    }
+
+    全文索引 类似 SQL select * from core where title like “%天下%” recId=1 and (cateId='10' or cateId>=1)
+    {
+        "bucket": "core",
+        "where": [
+            {
+                "key": "title",
+                "op": "like",
+                "val": "天下"
+            },
+            {
+                "key": "recId",
+                "op": "=",
+                "val": "1"
+            },
             {
                 "or": [
                     {
@@ -86,7 +115,7 @@ btree + RoaringBitmap + rocksdb + [soinc] 实现的简单筛选数据库
 
 
   PUT: [/put]:
-   
+
     {
         "bucket": "core",
         "data": [
