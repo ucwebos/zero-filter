@@ -5,7 +5,8 @@ btree + RoaringBitmap + rocksdb + [soinc] 实现的简单筛选数据库
     内存占用小 (取决于赛选条件值的数量) 
     只提供query和put 两个API
 
- QUERY [/query] 语法
+ QUERY [/query] 语法:
+
     类似 SQL select * from core where recId='1'
     {
         "bucket": "core",
@@ -84,7 +85,8 @@ btree + RoaringBitmap + rocksdb + [soinc] 实现的简单筛选数据库
     }
 
 
-  PUT: [/put] 
+  PUT: [/put]:
+   
     {
         "bucket": "core",
         "data": [
