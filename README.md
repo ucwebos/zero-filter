@@ -1,8 +1,8 @@
 btree + RoaringBitmap + rocksdb + [soinc] 实现的简单筛选数据库 
 
-    适用于数据量大 赛选条件值少的应用场景
+    适用于数据量大 筛选条件值少的应用场景
     通过 soinc 可以部分代替es的简单功能
-    内存占用小 (取决于赛选条件值的数量) 
+    内存占用小 (取决于筛选条件值的数量) 
     只提供query和put 两个API
 
  QUERY [/query] 语法:
