@@ -2,19 +2,27 @@ package store
 
 import (
 	"zero-filter/src/config"
+	"zero-filter/src/store/badger"
 	"zero-filter/src/store/kvstore"
-	"zero-filter/src/store/rocksdb"
 )
 
 var kv kvstore.KVStore
 
 // Init .
 func Init() {
-	conf := map[string]interface{}{
-		"create_if_missing": true,
-	}
+	// conf := map[string]interface{}{
+	// 	"create_if_missing": true,
+	// }
+	// conf["path"] = config.GConfig.Path + "/KV.DB"
+	// kvs, err := rocksdb.New(conf)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// kv = kvs
+
+	conf := map[string]interface{}{}
 	conf["path"] = config.GConfig.Path + "/KV.DB"
-	kvs, err := rocksdb.New(conf)
+	kvs, err := badger.New(conf)
 	if err != nil {
 		panic(err)
 	}

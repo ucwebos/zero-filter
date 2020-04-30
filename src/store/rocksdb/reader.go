@@ -35,6 +35,19 @@ func (r *Reader) MultiGet(keys [][]byte) ([][]byte, error) {
 	return vals, nil
 }
 
+// MultiGetMap .
+func (r *Reader) MultiGetMap(keys []string) (map[string][]byte, error) {
+	vals := make(map[string][]byte, 0)
+	for _, key := range keys {
+		b, err := r.store.db.Get(r.options, []byte(key))
+		if err != nil {
+			continue
+		}
+		vals[string(key)] = b.Data()
+	}
+	return vals, nil
+}
+
 // PrefixIterator .
 func (r *Reader) PrefixIterator(prefix []byte) kvstore.KVIterator {
 	rv := Iterator{

@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/RoaringBitmap/roaring v0.4.23
 	github.com/cstockton/go-conv v0.0.0-20170524002450-66a2b2ba36e1
+	github.com/dgraph-io/badger/v2 v2.0.3
 	github.com/expectedsh/go-sonic v0.0.0-20200417165347-1cfe7c425fff
 	github.com/facebookgo/ensure v0.0.0-20200202191622-63f1cf65ac4c // indirect
 	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052 // indirect

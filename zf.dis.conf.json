@@ -1,0 +1,23 @@
+{
+    "port": ":7878",
+    "primary": "id",
+    "path": "/Users/shaokejie/work/zero-filter/kvxxx",
+    "idxs": {
+        "appId": {
+            "kType": 1
+        },
+        "cateId": {
+            "kType": 1
+        },
+        "recId": {
+            "kType": 2
+        },
+        "userId": {
+            "kType": 1
+        }
+    },
+    "cluster": [
+        "10.10.10:162",
+        "10.10.10:162"
+    ]
+}

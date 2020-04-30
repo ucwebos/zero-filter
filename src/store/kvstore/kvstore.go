@@ -38,6 +38,9 @@ type KVReader interface {
 	// MultiGet retrieves multiple values in one call.
 	MultiGet(keys [][]byte) ([][]byte, error)
 
+	// MultiGet retrieves multiple map values in one call.
+	MultiGetMap(keys []string) (map[string][]byte, error)
+
 	// PrefixIterator returns a KVIterator that will
 	// visit all K/V pairs with the provided prefix
 	PrefixIterator(prefix []byte) KVIterator

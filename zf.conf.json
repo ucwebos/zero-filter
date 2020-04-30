@@ -1,6 +1,6 @@
 {
     "port": ":7878",
-    "path": "/var/log/zfstore",
+    "path": "/Users/shaokejie/work/zero-filter/kvxxx",
     "buckets": {
         "core": {
             "modeUNI": true,
@@ -19,10 +19,6 @@
                 "userId": {
                     "kType": 1
                 }
-            },
-            "search": {
-                "name": true,
-                "title": true
             }
         }
     }

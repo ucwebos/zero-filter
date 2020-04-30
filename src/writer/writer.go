@@ -203,6 +203,9 @@ func (w *IWriter) removeIdx(vData map[string]interface{}, uKey32 uint32) {
 			continue
 		}
 		bv.SBMap.CheckedRemove(uKey32)
+		if bv.SBMap.IsEmpty() {
+			tr.Tr.Delete(bv)
+		}
 	}
 }
 

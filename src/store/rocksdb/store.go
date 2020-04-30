@@ -97,11 +97,8 @@ func New(config map[string]interface{}) (kvstore.KVStore, error) {
 func (s *Store) Close() error {
 	s.db.Close()
 	s.db = nil
-
 	s.opts.Destroy()
-
 	s.opts = nil
-
 	return nil
 }
 

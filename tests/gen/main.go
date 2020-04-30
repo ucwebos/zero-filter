@@ -22,7 +22,7 @@ type reqs struct {
 
 func main() {
 	items := make([]item, 0)
-	for i := 1; i <= 10000000; i++ {
+	for i := 1; i <= 1000000; i++ {
 		it := item{
 			ID:     "xxxxxxxxxxxxx" + strconv.Itoa(i),
 			AppID:  rand.Intn(10),
